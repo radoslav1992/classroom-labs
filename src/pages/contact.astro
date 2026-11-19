@@ -1,0 +1,29 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { contactEmail } from '../lib/env';
+---
+<Layout
+  title="Contact Classroom Labs"
+  description="How to contact Classroom Labs: questions about the free labs, corrections, ideas for the teacher plan, and requests to delete a waitlist signup."
+  crumbs={[['Contact']]}
+>
+  <div class="wrap">
+    <div class="page-intro prose">
+      <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a> / <span aria-current="page">Contact</span></nav>
+      <h1>Contact</h1>
+      {contactEmail ? (
+        <p class="lede">Write to <a href={`mailto:${contactEmail}`}>{contactEmail}</a>.</p>
+      ) : (
+        <p class="lede">The contact address for Classroom Labs is being set up and will appear here.</p>
+      )}
+      <p>Good reasons to write:</p>
+      <ul>
+        <li>a question about using a lab in class</li>
+        <li>a mistake you spotted in a lab</li>
+        <li>an idea for the <a href="/#teacher-plan">teacher plan</a></li>
+        <li>a request to see or delete your waitlist signup (see the <a href="/privacy/#waitlist">privacy policy</a>)</li>
+      </ul>
+      <p>Please do not send students’ personal information.</p>
+    </div>
+  </div>
+</Layout>

@@ -1,0 +1,141 @@
+---
+import '../styles/global.css';
+import ConsentDefaults from '../components/ConsentDefaults.astro';
+import ConsentBanner from '../components/ConsentBanner.astro';
+import Logo from '../components/Logo.astro';
+import { site } from '../lib/site.mjs';
+import { labs } from '../lib/labs.mjs';
+import { contactEmail, gaId } from '../lib/env';
+import { jsonLd } from '../lib/seo';
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Breadcrumbs after Home: [name, path?][]; the last one is the current page. */
+  crumbs?: [string, string?][];
+  noindex?: boolean;
+  /** Extra JSON-LD objects for this page. */
+  structured?: object[];
+  /** Load Cloudflare Turnstile: only on pages that show the waitlist form. */
+  turnstile?: boolean;
+  nav?: string;
+}
+
+const { title = site.defaultTitle, description = site.defaultDescription, crumbs = [], noindex = false, structured = [], turnstile = false, nav = '' } = Astro.props;
+const suffix = ` | ${site.name}`;
+const fullTitle = title.includes(site.name) || title.length + suffix.length > 65 ? title : title + suffix;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const ogImage = new URL('/og-image.png', Astro.site).href;
+const isHome = Astro.url.pathname === '/';
+
+const data: object[] = [];
+if (isHome) {
+  data.push({ '@context': 'https://schema.org', '@type': 'WebSite', name: site.name, url: `${site.url}/`, description, inLanguage: 'en' });
+  data.push({
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: site.name,
+    url: `${site.url}/`,
+    logo: `${site.url}/favicon.svg`,
+    description: site.tagline,
+    sameAs: labs.map(lab => lab.url),
+    ...(contactEmail ? { email: contactEmail } : {}),
+  });
+}
+if (crumbs.length) {
+  data.push({
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [['Home', '/'], ...crumbs].map(([name, path], i) => ({ '@type': 'ListItem', position: i + 1, name, item: path ? new URL(path, Astro.site).href : canonical })),
+  });
+}
+data.push(...structured);
+
+const navItems = [['Labs', '/#labs'], ['For teachers', '/teachers/'], ['About', '/about/']];
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <ConsentDefaults />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <link rel="canonical" href={canonical} />
+    <meta name="theme-color" content="#fbf7ef" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#141a17" media="(prefers-color-scheme: dark)" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Classroom Labs: tiles for eight free labs in science, math, coding and reading" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Fraunces:wght@700&display=swap" />
+    {data.map(item => <script type="application/ld+json" set:html={jsonLd(item)} />)}
+    {turnstile && <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>}
+    {gaId && (
+      <Fragment>
+        <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}></script>
+        <script is:inline define:vars={{ id: gaId }}>
+          gtag('js', new Date());
+          gtag('config', id);
+        </script>
+      </Fragment>
+    )}
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="header">
+      <a class="brand" href="/" aria-label={`${site.name} home`}>
+        <Logo />
+        <span>{site.name}</span>
+      </a>
+      <nav class="main-nav" aria-label="Main navigation">
+        {navItems.map(([name, url]) => <a href={url} aria-current={nav === name ? 'page' : undefined}>{name}</a>)}
+        <a class="nav-plan" href="/#teacher-plan">Teacher plan</a>
+      </nav>
+    </header>
+    <main id="main"><slot /></main>
+    <footer class="footer">
+      <div class="footer-grid">
+        <div>
+          <a href="/" class="brand"><Logo size={30} /><span>{site.name}</span></a>
+          <p class="footer-tagline">{site.tagline} Free to use, with no sign-up.</p>
+        </div>
+        <nav aria-labelledby="footer-labs">
+          <h2 id="footer-labs">The labs</h2>
+          <ul>{labs.map(lab => <li><a href={lab.url} data-lab={lab.id}>{lab.name}</a></li>)}</ul>
+        </nav>
+        <nav aria-labelledby="footer-site">
+          <h2 id="footer-site">Classroom Labs</h2>
+          <ul>
+            <li><a href="/teachers/">For teachers</a></li>
+            <li><a href="/#teacher-plan">Teacher plan</a></li>
+            <li><a href="/about/">About</a></li>
+            <li><a href="/contact/">Contact</a></li>
+            <li><a href="/privacy/">Privacy policy</a></li>
+            {gaId && <li><button type="button" class="footer-link-button" data-cookie-settings>Cookie settings</button></li>}
+          </ul>
+        </nav>
+      </div>
+      <p class="footer-bottom">Made by one independent maker.{contactEmail && <Fragment> Write to <a href={`mailto:${contactEmail}`}>{contactEmail}</a>.</Fragment>}</p>
+    </footer>
+    {gaId && <ConsentBanner />}
+    <script>
+      import { trackLabClicks } from '../scripts/analytics';
+      trackLabClicks();
+    </script>
+  </body>
+</html>

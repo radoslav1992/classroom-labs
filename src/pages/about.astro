@@ -1,0 +1,36 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { labs } from '../lib/labs.mjs';
+import { contactEmail } from '../lib/env';
+---
+<Layout
+  title="About Classroom Labs: Free Learning Sites for Class"
+  description="Classroom Labs is the home of eight free, interactive learning sites for science, math, coding and reading, made by one independent maker for classrooms."
+  crumbs={[['About']]}
+  nav="About"
+>
+  <div class="wrap">
+    <div class="page-intro">
+      <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a> / <span aria-current="page">About</span></nav>
+      <h1>About Classroom Labs</h1>
+      <p class="lede">Classroom Labs is the home of a family of free, interactive learning sites, each one built around a subject taught in school.</p>
+    </div>
+    <div class="prose">
+      <h2>What the labs are</h2>
+      <p>Each lab is its own website with simulations, calculators, games and practice that run in the browser. Students change something and see what happens: an orbit, a Punnett square, a river, a triangle, a sentence. There are eight so far:</p>
+      <ul>
+        {labs.map(lab => <li><a href={lab.url} data-lab={lab.id}>{lab.name}</a> ({lab.subject.toLowerCase()})</li>)}
+      </ul>
+
+      <h2>How they are made</h2>
+      <p>The labs are made for classrooms. They are free to use with no sign-up, so a teacher can share a link and students can start straight away, on a Chromebook or any other device with a browser. The science, math and reading labs come with printable activities and answer keys for teachers.</p>
+      <p>Every lab stays free for students. Alongside that, a paid <a href="/#teacher-plan">teacher plan</a> for teachers and schools is being planned, with extras for running a class. Teachers on the waitlist will be asked what it should include.</p>
+
+      <h2>Who makes it</h2>
+      <p>Classroom Labs is made by one independent maker, not a publisher or a large company. It started with Interactive Periodic Table and has grown one subject at a time.</p>
+
+      <h2>Get in touch</h2>
+      <p>Questions, corrections and ideas from teachers are welcome. {contactEmail ? <Fragment>Write to <a href={`mailto:${contactEmail}`}>{contactEmail}</a>.</Fragment> : <Fragment>See the <a href="/contact/">contact page</a>.</Fragment>}</p>
+    </div>
+  </div>
+</Layout>

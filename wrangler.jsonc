@@ -1,0 +1,42 @@
+{
+  // classroomlabs.org: the hub site (static Astro pages in ./dist) plus the teacher-plan waitlist API.
+  // Only /api/* and the two pages with the waitlist form ("/" and "/teachers/", for the no-JavaScript result
+  // message: src/notice.ts) run the Worker (src/worker.ts); every other request is served straight from ./dist.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "classroom-labs",
+  "main": "./src/worker.ts",
+  "compatibility_date": "2026-11-01",
+  "compatibility_flags": ["global_fetch_strictly_public"],
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "html_handling": "force-trailing-slash",
+    "not_found_handling": "404-page",
+    "run_worker_first": ["/api/*", "/", "/teachers/"]
+  },
+  "observability": {
+    "enabled": true
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "classroom-labs",
+      // Created 19 Nov 2026 (location ENAM); migration 0001_init.sql already applied remotely.
+      "database_id": "e73bb394-c578-4559-95dd-7f541850824b",
+      "migrations_dir": "migrations"
+    }
+  ],
+  // Daily retention: deletes signups older than 365 days and ended rate-limit windows (03:17 UTC).
+  "triggers": {
+    "crons": ["17 3 * * *"]
+  },
+  "vars": {
+    // Cloudflare Access protects /api/export.csv. While either is empty, that route answers 404.
+    // TEAM_DOMAIN: e.g. "yourteam.cloudflareaccess.com". ACCESS_AUD: the Access application's AUD tag.
+    "TEAM_DOMAIN": "",
+    "ACCESS_AUD": "",
+    // Optional comma-separated override of the site allowlist; empty uses the contract's seven sites.
+    "ALLOWED_SITES": ""
+  }
+  // Secrets (never in this file): `npx wrangler secret put TURNSTILE_SECRET` and `npx wrangler secret put IP_HASH_SALT`.
+}

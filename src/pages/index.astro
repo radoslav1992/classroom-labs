@@ -1,0 +1,132 @@
+---
+import Layout from '../layouts/Layout.astro';
+import LabCard from '../components/LabCard.astro';
+import TeacherPlan from '../components/TeacherPlan.astro';
+import { site } from '../lib/site.mjs';
+import { groups, labs } from '../lib/labs.mjs';
+import { waitlistEnabled } from '../lib/env';
+
+const itemList = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Classroom Labs',
+  description: 'Free interactive learning sites for science, math, coding and reading.',
+  numberOfItems: labs.length,
+  itemListElement: labs.map((lab, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    item: { '@type': 'WebSite', name: lab.name, url: lab.url, description: lab.does, about: lab.subject },
+  })),
+};
+const teacherLabs = labs.filter(lab => lab.teachersUrl);
+---
+<Layout title={site.defaultTitle} description={site.defaultDescription} structured={[itemList]} turnstile={waitlistEnabled}>
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow">Free for every classroom</span>
+        <h1>Free interactive labs for <span class="hl">science, math, coding and reading</span></h1>
+        <p class="lede">Eight free sites where students run experiments, solve problems and practice skills right in the browser. There is nothing to sign up for and nothing to install.</p>
+        <ul class="promise">
+          <li><strong>Made for classrooms.</strong> Built for teachers first, and for the students and parents they share them with.</li>
+          <li><strong>Works where you teach.</strong> On Chromebooks, and in Google Classroom, Canvas or Schoology as a link.</li>
+        </ul>
+        <div class="actions">
+          <a class="btn primary" href="#labs">Browse the labs</a>
+          <a class="btn" href="/teachers/">For teachers</a>
+        </div>
+      </div>
+      <ul class="tiles" aria-label="The labs">
+        {labs.map(lab => (
+          <li style={`--lab:${lab.color};--lab-tint:${lab.tint}`}>
+            <a href={lab.url} data-lab={lab.id}>
+              <span class="tile-mark" aria-hidden="true">{lab.mark}</span>
+              <span class="tile-name">{lab.name}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section labs" id="labs" aria-labelledby="labs-heading">
+    <div class="wrap">
+      <h2 id="labs-heading">The labs</h2>
+      <p class="lede">Each lab is its own free website. Open one in class, share a page with students, or start from a tool below.</p>
+      {groups.map(group => (
+        <div class="group" id={group.id}>
+          <h3 class="group-name">{group.name} <span>{group.blurb}</span></h3>
+          <div class="lab-grid">
+            {group.labs.map(lab => <LabCard lab={lab} />)}
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section teachers-band" aria-labelledby="teachers-heading">
+    <div class="wrap">
+      <span class="eyebrow">For teachers</span>
+      <h2 id="teachers-heading">Ready for class, with nothing to set up</h2>
+      <div class="points">
+        <div class="point">
+          <h3>Share a link</h3>
+          <p>Students open a lab with no accounts and no logins. Most labs have a Share to Google Classroom button on their pages, and any page works as a link in Canvas or Schoology.</p>
+        </div>
+        <div class="point">
+          <h3>Print an activity</h3>
+          <p>The science, math and reading labs have printable classroom activities and answer keys for teachers, collected on each lab’s teachers page.</p>
+        </div>
+        <div class="point">
+          <h3>Use any device</h3>
+          <p>Everything runs in the browser, including on school Chromebooks. A projector and one computer are enough for a whole-class demo.</p>
+        </div>
+      </div>
+      <p class="teachers-links-label" id="teachers-links-label">Teachers pages</p>
+      <ul class="teachers-links" aria-labelledby="teachers-links-label">
+        {teacherLabs.map(lab => <li><a href={lab.teachersUrl} data-lab={lab.id}>{lab.name}</a></li>)}
+      </ul>
+      <p><a class="more" href="/teachers/">How teachers use the labs</a></p>
+    </div>
+  </section>
+
+  <TeacherPlan />
+
+  <section class="section maker" aria-labelledby="maker-heading">
+    <div class="wrap maker-inner">
+      <h2 id="maker-heading">Who makes this</h2>
+      <p>Classroom Labs is made by one independent maker, not a publisher. It started with Interactive Periodic Table and has grown one subject at a time. Questions, corrections and stories from your classroom are always welcome.</p>
+      <p><a href="/about/">More about Classroom Labs</a> · <a href="/contact/">Contact</a></p>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .hero { padding: 36px 0 48px; }
+  .hero-grid { display: grid; gap: 36px 48px; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); align-items: center; }
+  @media (max-width: 900px) { .hero-grid { grid-template-columns: minmax(0, 1fr); } }
+  .hero h1 { margin-bottom: .45em; }
+  .promise { list-style: none; padding: 0; margin: 18px 0 0; display: grid; gap: 8px; max-width: 44rem; }
+  .promise li { margin: 0; padding-left: 18px; border-left: 4px solid var(--marigold); }
+  .tiles { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+  @media (max-width: 520px) { .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .tiles li { margin: 0; }
+  .tiles a { display: flex; flex-direction: column; justify-content: space-between; gap: 6px; min-height: 104px; padding: 12px; border-radius: 12px; background: var(--lab-tint); color: var(--lab); text-decoration: none; border: 2px solid transparent; box-shadow: inset 0 -4px 0 var(--lab); }
+  .tiles a:hover { border-color: var(--lab); }
+  .tile-mark { font: 700 1.5rem/1 var(--font-display); white-space: nowrap; }
+  .tile-name { font-size: .86rem; font-weight: 700; line-height: 1.25; }
+  .group { margin-top: 36px; scroll-margin-top: 8px; }
+  .group-name { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; font-size: 1.5rem; padding-bottom: 8px; border-bottom: 2px solid var(--rule); }
+  .group-name span { font: 400 1rem/1.4 var(--font-body); color: var(--muted); }
+  .lab-grid { display: grid; gap: 20px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); }
+  .teachers-band { background: var(--paper-2); border-block: 1px solid var(--rule); }
+  .points { display: grid; gap: 18px 32px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); margin: 12px 0 24px; }
+  .point h3 { font-size: 1.2rem; }
+  .point p { color: var(--muted); }
+  .teachers-links-label { font-weight: 700; margin-bottom: 6px; }
+  .teachers-links { list-style: none; padding: 0; margin: 0 0 12px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .teachers-links li { margin: 0; }
+  .teachers-links a { display: inline-flex; align-items: center; min-height: 44px; padding: 6px 14px; border-radius: 10px; background: var(--card); border: 1px solid var(--rule); font-weight: 700; }
+  .more { display: inline-flex; align-items: center; min-height: 44px; font-weight: 700; }
+  .maker-inner { max-width: 760px; }
+</style>

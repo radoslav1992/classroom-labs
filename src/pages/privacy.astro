@@ -1,0 +1,50 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { labs } from '../lib/labs.mjs';
+import { contactEmail, gaId } from '../lib/env';
+---
+<Layout
+  title="Privacy Policy"
+  description="How Classroom Labs handles data: no accounts, no student data, what the teacher plan waitlist stores and why, Cloudflare as processor, 12-month deletion."
+  crumbs={[['Privacy policy']]}
+>
+  <div class="wrap">
+    <div class="page-intro">
+      <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a> / <span aria-current="page">Privacy policy</span></nav>
+      <h1>Privacy policy</h1>
+      <p class="lede">The short version: there are no accounts, we collect no student data, and the only personal data we keep is what a teacher chooses to send us on the teacher plan waitlist.</p>
+    </div>
+    <div class="prose">
+      <h2 id="this-site">This site</h2>
+      <p>Classroom Labs (classroomlabs.org) is run by one independent maker. You can read every page without an account, and the site shows no ads.</p>
+      {gaId ? (
+        <Fragment>
+          <p>We use Google Analytics to count visits anonymously: which pages are viewed, which lab links are clicked, and whether someone joined the waitlist (with their role and the site, never their email address). Google Consent Mode is set so that advertising features are always off. In the European Economic Area, the United Kingdom and Switzerland, analytics cookies are only set after you accept them in the cookie banner. Elsewhere they are on by default, and you can turn them off at any time with “Cookie settings” at the bottom of each page. Your choice is saved in your browser for 180 days.</p>
+        </Fragment>
+      ) : (
+        <p>This site does not use analytics or advertising cookies.</p>
+      )}
+      <p>Fonts are loaded from Google Fonts, so your browser asks Google’s servers for them, which shares your IP address with Google.</p>
+
+      <h2 id="waitlist">The teacher plan waitlist</h2>
+      <p>The teacher plan waitlist form appears on this site and on the teachers pages of several labs. All of these forms send their answers to this site.</p>
+      <ul>
+        <li><strong>What we store:</strong> your email address and your answers (your role, subjects, grades, what would help you, whether your school buys software for teachers), which site the form was on, and when you signed up and agreed.</li>
+        <li><strong>Why:</strong> we store the email and answers to contact you about the teacher plan. We do not sell them, share them with anyone else, or use them for advertising.</li>
+        <li><strong>Who processes it:</strong> Cloudflare stores and processes it for us, in a Cloudflare D1 database behind this site.</li>
+        <li><strong>Spam protection:</strong> Cloudflare Turnstile runs on the pages with the form to check that a person is sending it. To limit repeated sign-ups we keep a one-way, salted hash of your IP address (never the address itself) for at most a day.</li>
+        <li><strong>How long:</strong> signups are deleted 12 months after they were made. To have yours deleted sooner, or to see what we hold, email {contactEmail ? <a href={`mailto:${contactEmail}`}>{contactEmail}</a> : <Fragment>the contact address on the <a href="/contact/">contact page</a></Fragment>}.</li>
+        <li><strong>No student data:</strong> the form is for teachers and school staff. No student data is collected.</li>
+      </ul>
+
+      <h2 id="labs">The labs</h2>
+      <p>Each lab is its own website with its own privacy policy. None of them asks students to create an account.</p>
+      <ul>
+        {labs.map(lab => <li><a href={lab.url} data-lab={lab.id}>{lab.name}</a></li>)}
+      </ul>
+
+      <h2 id="contact">Questions</h2>
+      <p>For any question about your data, {contactEmail ? <Fragment>write to <a href={`mailto:${contactEmail}`}>{contactEmail}</a></Fragment> : <Fragment>use the address on the <a href="/contact/">contact page</a></Fragment>}.</p>
+    </div>
+  </div>
+</Layout>
