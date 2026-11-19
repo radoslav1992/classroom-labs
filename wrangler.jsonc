@@ -21,8 +21,8 @@
     {
       "binding": "DB",
       "database_name": "classroom-labs",
-      // PLACEHOLDER: replace with the id printed by `npx wrangler d1 create classroom-labs` (README, step 1).
-      "database_id": "00000000-0000-0000-0000-000000000000",
+      // Created 19 Nov 2026 (location ENAM); migration 0001_init.sql already applied remotely.
+      "database_id": "e73bb394-c578-4559-95dd-7f541850824b",
       "migrations_dir": "migrations"
     }
   ],

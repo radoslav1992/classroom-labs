@@ -113,10 +113,10 @@ Site tests (`tests/site/`) check the lab data and render the form with the Astro
 
 ## Set up in Cloudflare and Google Analytics (owner, in this order)
 
-1. **D1**: `npx wrangler d1 create classroom-labs` (or Dashboard → Storage & Databases → D1 → Create, named
-   `classroom-labs`). Put the printed `database_id` in `wrangler.jsonc` in place of the all-zero placeholder and
-   commit it.
-2. **Migration**: `npm run db:migrate:remote` (`wrangler d1 migrations apply classroom-labs --remote`).
+1. **D1**: done. The `classroom-labs` database (id `e73bb394-c578-4559-95dd-7f541850824b`, location ENAM) was
+   created on 19 Nov 2026 and its id is in `wrangler.jsonc`.
+2. **Migration**: done for `0001_init.sql` (recorded in the `d1_migrations` table, so
+   `npm run db:migrate:remote` only applies later migrations).
 3. **Turnstile**: Dashboard → Turnstile → Add widget. Hostnames: `classroomlabs.org`, `earthsciencelab.org`,
    `interactiveperiodictable.net`, `thebiologylab.org`, `thephysicslab.org`, `theastronomylab.com`,
    `geometrylab.net`. Mode: Managed. The **site key** goes into `PUBLIC_TURNSTILE_SITE_KEY` here and in each lab's
