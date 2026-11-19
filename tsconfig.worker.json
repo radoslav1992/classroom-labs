@@ -1,0 +1,17 @@
+{
+  // Type check for the Worker (src/worker.ts and src/api/), against the Workers runtime types.
+  "compilerOptions": {
+    "target": "es2023",
+    "module": "es2022",
+    "moduleResolution": "bundler",
+    "lib": ["es2023"],
+    "types": ["@cloudflare/workers-types"],
+    "strict": true,
+    "allowJs": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true
+  },
+  "include": ["src/worker.ts", "src/notice.ts", "src/api/**/*.ts"]
+}

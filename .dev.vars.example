@@ -1,0 +1,5 @@
+# Local secrets for `wrangler dev`: copy to .dev.vars (never commit it). Production secrets are set with
+# `npx wrangler secret put TURNSTILE_SECRET` and `npx wrangler secret put IP_HASH_SALT`.
+# Turnstile's test secret: every token passes.
+TURNSTILE_SECRET=1x0000000000000000000000000000000AA
+IP_HASH_SALT=local-development-salt
