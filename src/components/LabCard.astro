@@ -1,0 +1,55 @@
+---
+// One lab: its mark and color (from learning-apps.mjs), what students do there, its grade band if it states
+// one, its main tools and its teachers page. All links are the lab's canonical URLs.
+import type { Lab } from '../lib/labs.mjs';
+
+interface Props { lab: Lab }
+const { lab } = Astro.props;
+---
+<article class="lab-card" id={`lab-${lab.id}`} style={`--lab:${lab.color};--lab-tint:${lab.tint}`}>
+  <div class="lab-art" aria-hidden="true">
+    <svg viewBox="0 0 80 68" width="80" height="68" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d={lab.path} /></svg>
+    <span class="lab-mark">{lab.mark}</span>
+  </div>
+  <div class="lab-body">
+    <p class="lab-meta"><span>{lab.subject}</span>{lab.grades && <span class="lab-grades">{lab.grades}</span>}</p>
+    <h3 class="lab-name"><a href={lab.url} data-lab={lab.id}>{lab.name}</a></h3>
+    <p class="lab-does">{lab.does}</p>
+    {lab.tools.length > 0 && (
+      <Fragment>
+        <p class="lab-tools-label" id={`tools-${lab.id}`}>Start with</p>
+        <ul class="lab-tools" aria-labelledby={`tools-${lab.id}`}>
+          {lab.tools.map(tool => <li><a href={tool.url} data-lab={lab.id}>{tool.name}</a></li>)}
+        </ul>
+      </Fragment>
+    )}
+    <p class="lab-links">
+      <a class="lab-open" href={lab.url} data-lab={lab.id}>Open {lab.name}<span aria-hidden="true"> ↗</span></a>
+      {lab.teachersUrl && <a href={lab.teachersUrl} data-lab={lab.id}>For teachers<span class="visually-hidden">: {lab.name}</span></a>}
+    </p>
+  </div>
+</article>
+
+<style>
+  .lab-card { display: flex; flex-direction: column; min-width: 0; background: var(--card); border: 1px solid var(--rule); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
+  .lab-art { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 92px; padding: 12px 20px; background: var(--lab-tint); color: var(--lab); border-bottom: 3px solid var(--lab); }
+  .lab-art svg { width: 64px; height: 54px; flex: none; }
+  .lab-mark { font: 700 1.75rem/1.1 var(--font-display); letter-spacing: -.02em; white-space: nowrap; }
+  .lab-body { display: flex; flex-direction: column; flex: 1; padding: 18px 20px 20px; }
+  .lab-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin: 0 0 6px; font-size: .8rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  .lab-grades { padding: 2px 8px; border-radius: 999px; border: 1px solid var(--rule-strong); letter-spacing: .02em; text-transform: none; font-size: .82rem; color: var(--ink); }
+  .lab-name { font-size: 1.35rem; margin: 0 0 8px; }
+  .lab-name a { color: var(--ink); text-decoration: none; display: inline-block; padding: 4px 0; }
+  .lab-name a:hover { text-decoration: underline; }
+  .lab-does { color: var(--muted); margin-bottom: 12px; }
+  .lab-tools-label { margin: 0 0 4px; font-size: .85rem; font-weight: 700; color: var(--ink); }
+  .lab-tools { list-style: none; padding: 0; margin: 0 0 14px; display: flex; flex-wrap: wrap; gap: 6px; }
+  .lab-tools li { margin: 0; }
+  .lab-tools a { display: inline-flex; align-items: center; min-height: 36px; padding: 4px 11px; border-radius: 8px; background: var(--paper-2); color: var(--ink); text-decoration: none; font-size: .93rem; border: 1px solid var(--rule); }
+  .lab-tools a:hover { border-color: var(--rule-strong); text-decoration: underline; }
+  .lab-links { display: flex; flex-wrap: wrap; gap: 4px 18px; margin: auto 0 0; padding-top: 4px; }
+  .lab-links a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 700; }
+  @media (prefers-color-scheme: dark) {
+    .lab-card { border-color: var(--rule); }
+  }
+</style>

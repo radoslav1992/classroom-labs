@@ -1,0 +1,12 @@
+---
+// The Classroom Labs mark: four tiles in lab colors, like the panes of a classroom window.
+interface Props { size?: number }
+const { size = 36 } = Astro.props;
+---
+<svg width={size} height={size} viewBox="0 0 40 40" aria-hidden="true" focusable="false">
+  <rect x="1" y="1" width="38" height="38" rx="9" fill="#22433a" />
+  <rect x="7" y="7" width="12" height="12" rx="3" fill="#f0b429" />
+  <rect x="21" y="7" width="12" height="12" rx="3" fill="#e1edf6" />
+  <rect x="7" y="21" width="12" height="12" rx="3" fill="#f6e7db" />
+  <rect x="21" y="21" width="12" height="12" rx="3" fill="#e4f1e4" />
+</svg>

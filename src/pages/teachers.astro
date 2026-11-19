@@ -1,0 +1,93 @@
+---
+import Layout from '../layouts/Layout.astro';
+import TeacherPlan from '../components/TeacherPlan.astro';
+import { labs } from '../lib/labs.mjs';
+import { waitlistEnabled } from '../lib/env';
+
+const withTeachers = labs.filter(lab => lab.teachersUrl);
+const others = labs.filter(lab => !lab.teachersUrl);
+---
+<Layout
+  title="For Teachers: Free Labs, Activities and Answer Keys"
+  description="How teachers use the free Classroom Labs in class: share a link in Google Classroom, Canvas or Schoology, print activities with answer keys, no logins."
+  crumbs={[['For teachers']]}
+  nav="For teachers"
+  turnstile={waitlistEnabled}
+>
+  <div class="wrap">
+    <div class="page-intro">
+      <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a> / <span aria-current="page">For teachers</span></nav>
+      <h1>How teachers use the labs</h1>
+      <p class="lede">Every lab is free, with no accounts for you or your students. Here is how teachers fit them into a lesson, and where each lab keeps its classroom materials.</p>
+    </div>
+
+    <section class="section uses" aria-labelledby="uses-heading">
+      <h2 id="uses-heading">In a lesson</h2>
+      <ol class="steps">
+        <li>
+          <h3>Show it to the class</h3>
+          <p>Open a simulation or tool on the board and change one thing at a time while students predict what will happen. Nothing needs to be installed.</p>
+        </li>
+        <li>
+          <h3>Share a link</h3>
+          <p>Send students straight to the page you want. Most labs have a Share to Google Classroom button, and any page can be posted as a link in Canvas or Schoology. Students do not sign in, so there are no accounts to manage.</p>
+        </li>
+        <li>
+          <h3>Print an activity</h3>
+          <p>The science, math and reading labs have printable activities that students complete with the tool, with answer keys for teachers on the lab’s teachers page.</p>
+        </li>
+        <li>
+          <h3>Practice and review</h3>
+          <p>Several labs have practice questions with explanations, such as the physics and biology practice sets and the periodic table quiz, for a warm-up or a review.</p>
+        </li>
+      </ol>
+      <p class="note">The labs run in the browser, including on Chromebooks. Students never need an account.</p>
+    </section>
+
+    <section class="section" aria-labelledby="pages-heading">
+      <h2 id="pages-heading">Each lab’s teachers page</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th scope="col">Lab</th><th scope="col">Grades</th><th scope="col">On the teachers page</th></tr></thead>
+          <tbody>
+            {withTeachers.map(lab => (
+              <tr>
+                <th scope="row"><a href={lab.teachersUrl} data-lab={lab.id}>{lab.name}</a><span class="subject">{lab.subject}</span></th>
+                <td>{lab.grades}</td>
+                <td>{lab.teachers}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {others.map(lab => (
+        <p class="muted">{lab.name} ({lab.subject.toLowerCase()}) is for children starting to code: <a href={lab.url} data-lab={lab.id}>open {lab.name}</a>.</p>
+      ))}
+    </section>
+  </div>
+
+  <TeacherPlan />
+</Layout>
+
+<style>
+  .steps { list-style: none; padding: 0; margin: 12px 0 24px; display: grid; gap: 18px 32px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); counter-reset: step; }
+  .steps li { margin: 0; padding: 18px 20px; background: var(--card); border: 1px solid var(--rule); border-radius: var(--radius); counter-increment: step; }
+  .steps h3 { font-size: 1.2rem; }
+  .steps h3::before { content: counter(step); display: inline-grid; place-items: center; width: 30px; height: 30px; margin-right: 10px; border-radius: 50%; background: var(--marigold); color: #1f2b26; font: 700 1rem/1 var(--font-body); vertical-align: 2px; }
+  .steps p { color: var(--muted); margin: 0; }
+  .table-wrap { overflow-x: auto; border: 1px solid var(--rule); border-radius: var(--radius); background: var(--card); margin-bottom: 14px; }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { text-align: left; vertical-align: top; padding: 12px 14px; border-bottom: 1px solid var(--rule); }
+  thead th { font-size: .85rem; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); background: var(--paper-2); }
+  tbody tr:last-child > * { border-bottom: 0; }
+  tbody th a { display: inline-block; padding: 2px 0; font-weight: 700; }
+  .subject { display: block; font-weight: 400; color: var(--muted); font-size: .92rem; }
+  @media (max-width: 640px) {
+    table, tbody, tr, th, td { display: block; min-width: 0; }
+    thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+    tbody tr { padding: 12px 14px; border-bottom: 1px solid var(--rule); }
+    tbody tr:last-child { border-bottom: 0; }
+    tbody th, tbody td { padding: 2px 0; border: 0; }
+    td:nth-child(2) { font-weight: 700; }
+  }
+</style>
