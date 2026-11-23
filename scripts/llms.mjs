@@ -33,7 +33,7 @@ const pages = [...fs.readFileSync(sitemap, 'utf8').matchAll(/<loc>(.*?)<\/loc>/g
 const lines = [
   `# ${site.name}`,
   '',
-  `> ${site.name} is the home of a family of free, interactive learning sites for science, math, coding and reading, made by one independent maker. Every lab is free to use with no sign-up. They are made for classrooms: they work on Chromebooks and can be shared as a link in Google Classroom, Canvas or Schoology. The science, math and reading labs have printable activities with teacher answer keys. A paid teacher plan for teachers and schools is being planned; teachers can join its waitlist on this site.`,
+  `> ${site.name} is the home of a family of free, interactive learning sites for science, math, spreadsheets, coding and reading, made by one independent maker. Every lab is free to use with no sign-up. They are made for classrooms: they work on Chromebooks and can be shared as a link in Google Classroom, Canvas or Schoology. The science, math and reading labs have printable activities with teacher answer keys, and Cell by Cell has an answer key for every track of its Excel lessons. A paid teacher plan for teachers and schools is being planned; teachers can join its waitlist on this site.`,
   '',
 ];
 for (const group of groups) {

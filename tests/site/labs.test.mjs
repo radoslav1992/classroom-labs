@@ -4,9 +4,9 @@ import { learningApps } from '../../src/lib/learning-apps.mjs';
 import { MESSAGES, messageKey } from '../../src/lib/waitlist.mjs';
 
 describe('the labs on the hub', () => {
-  it('are the eight labs of the series, in order', () => {
+  it('are the nine labs of the series, in order', () => {
     expect(labs.map(lab => lab.name)).toEqual([
-      'Interactive Periodic Table', 'Physics Lab', 'Biology Lab', 'Earth Science Lab', 'Astronomy Lab', 'Geometry Lab', 'KidsCode', 'Fiction & Fact Library',
+      'Interactive Periodic Table', 'Physics Lab', 'Biology Lab', 'Earth Science Lab', 'Astronomy Lab', 'Geometry Lab', 'Cell by Cell', 'KidsCode', 'Fiction & Fact Library',
     ]);
   });
 
@@ -18,13 +18,13 @@ describe('the labs on the hub', () => {
     }
   });
 
-  it('link only to canonical URLs: no trailing slash on Interactive Periodic Table paths, a trailing slash elsewhere', () => {
+  it('link only to canonical URLs: no trailing slash on Interactive Periodic Table and Cell by Cell paths, a trailing slash elsewhere', () => {
     expect(canonicalLabUrls.size).toBeGreaterThan(30);
     for (const href of canonicalLabUrls) {
       const url = new URL(href);
       expect(url.protocol).toBe('https:');
       expect(url.search + url.hash).toBe('');
-      if (url.hostname === 'interactiveperiodictable.net' && url.pathname !== '/') expect(url.pathname).not.toMatch(/\/$/);
+      if (['interactiveperiodictable.net', 'cellbycell.app'].includes(url.hostname) && url.pathname !== '/') expect(url.pathname).not.toMatch(/\/$/);
       else expect(url.pathname).toMatch(/\/$/);
     }
   });
@@ -42,7 +42,13 @@ describe('the labs on the hub', () => {
 
   it('put every lab in exactly one subject group', () => {
     expect(groups.flatMap(group => group.labs.map(lab => lab.id)).sort()).toEqual(labs.map(lab => lab.id).sort());
-    expect(groups.map(group => group.name)).toEqual(['Science', 'Math', 'Coding', 'Reading']);
+    expect(groups.map(group => group.name)).toEqual(['Science', 'Math', 'Computer skills', 'Coding', 'Reading']);
+  });
+
+  it('list Cell by Cell with its lessons, skills test, function guides and teachers page', () => {
+    const cbc = labs.find(lab => lab.id === 'spreadsheets');
+    expect(cbc).toMatchObject({ name: 'Cell by Cell', subject: 'Spreadsheets', url: 'https://cellbycell.app/', color: '#0f7a49', teachersUrl: 'https://cellbycell.app/teachers' });
+    expect(cbc.tools.map(tool => tool.url)).toEqual(['https://cellbycell.app/learn', 'https://cellbycell.app/test', 'https://cellbycell.app/functions', 'https://cellbycell.app/daily']);
   });
 
   it('use American spelling and no em dashes in their copy', () => {

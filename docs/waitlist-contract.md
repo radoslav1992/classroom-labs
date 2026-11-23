@@ -19,7 +19,7 @@ Accepts `application/x-www-form-urlencoded` (no-JavaScript form post) and `appli
 | `grades` | optional free text ≤ 100 |
 | `interests` | zero or more of `class_results`, `editable_worksheets`, `answer_keys`, `quiz_banks`, `all_labs_licence` (repeated form field `interests`, or a JSON array) |
 | `school_buys` | one of `yes`, `no`, `not_sure` |
-| `site` | required, hostname in the allowlist: `classroomlabs.org`, `earthsciencelab.org`, `interactiveperiodictable.net`, `thebiologylab.org`, `thephysicslab.org`, `theastronomylab.com`, `geometrylab.net` |
+| `site` | required, hostname in the allowlist: `classroomlabs.org`, `earthsciencelab.org`, `interactiveperiodictable.net`, `thebiologylab.org`, `thephysicslab.org`, `theastronomylab.com`, `geometrylab.net`, `cellbycell.app` |
 | `source` | `teachers_page`, `after_share` or `hub` |
 | `consent` | must be `yes` (unticked checkbox the teacher ticks; links the privacy page) |
 | `cf-turnstile-response` | required Turnstile token, verified server-side |

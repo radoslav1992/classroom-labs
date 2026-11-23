@@ -1,6 +1,6 @@
 # Classroom Labs
 
-> Classroom Labs is the home of a family of free, interactive learning sites for science, math, coding and reading, made by one independent maker. Every lab is free to use with no sign-up. They are made for classrooms: they work on Chromebooks and can be shared as a link in Google Classroom, Canvas or Schoology. The science, math and reading labs have printable activities with teacher answer keys. A paid teacher plan for teachers and schools is being planned; teachers can join its waitlist on this site.
+> Classroom Labs is the home of a family of free, interactive learning sites for science, math, spreadsheets, coding and reading, made by one independent maker. Every lab is free to use with no sign-up. They are made for classrooms: they work on Chromebooks and can be shared as a link in Google Classroom, Canvas or Schoology. The science, math and reading labs have printable activities with teacher answer keys, and Cell by Cell has an answer key for every track of its Excel lessons. A paid teacher plan for teachers and schools is being planned; teachers can join its waitlist on this site.
 
 ## Science
 
@@ -14,6 +14,10 @@
 
 - [Geometry Lab](https://geometrylab.net/) (Math, Grades 6–12): Solve a triangle with worked steps, read the unit circle, transform shapes on a grid and print nets to fold into 3D shapes. Main tools: [Triangle solver](https://geometrylab.net/triangle-solver/), [Unit circle](https://geometrylab.net/unit-circle/), [Transformations](https://geometrylab.net/tools/transformations/), [Printable nets](https://geometrylab.net/printable-nets/), [All geometry tools](https://geometrylab.net/tools/). [For teachers](https://geometrylab.net/teachers/): Printable student activities with answer keys and Common Core connections.
 
+## Computer skills
+
+- [Cell by Cell](https://cellbycell.app/) (Spreadsheets, Ages 13 to adult): Learn Excel in a live spreadsheet that runs in the browser: type real formulas, with every step checked as you work, from a first SUM to lookups, PivotTables, charts and dynamic arrays. Main tools: [Interactive Excel lessons](https://cellbycell.app/learn), [Excel skills test](https://cellbycell.app/test), [Excel function guides](https://cellbycell.app/functions), [Daily Excel puzzle](https://cellbycell.app/daily). [For teachers](https://cellbycell.app/teachers): How to assign a lesson or a whole track, what needs an account, the skills test as an assessment, and an answer key for every track.
+
 ## Coding
 
 - [KidsCode](https://kidscode.dev/) (Coding): Guide a robot, snap code blocks together and write first real Python programs.
@@ -24,8 +28,8 @@
 
 ## This site
 
-- [Classroom Labs: Free Interactive Labs for Every Classroom](https://classroomlabs.org/): Free interactive labs for science, math, coding and reading. No sign-up, made for classrooms, and they work on Chromebooks and in Google Classroom.
-- [About Classroom Labs: Free Learning Sites for Class](https://classroomlabs.org/about/): Classroom Labs is the home of eight free, interactive learning sites for science, math, coding and reading, made by one independent maker for classrooms.
+- [Classroom Labs: Free Interactive Labs for Every Classroom](https://classroomlabs.org/): Free interactive labs for science, math, spreadsheets, coding and reading. No sign-up, made for classrooms, ready for Chromebooks and Google Classroom.
+- [About Classroom Labs: Free Learning Sites for Class](https://classroomlabs.org/about/): Classroom Labs is the home of nine free, interactive learning sites for science, math, spreadsheets, coding and reading, made by one independent maker.
 - [Contact Classroom Labs](https://classroomlabs.org/contact/): How to contact Classroom Labs: questions about the free labs, corrections, ideas for the teacher plan, and requests to delete a waitlist signup.
 - [Privacy Policy](https://classroomlabs.org/privacy/): How Classroom Labs handles data: no accounts, no student data, what the teacher plan waitlist stores and why, Cloudflare as processor, 12-month deletion.
 - [For Teachers: Free Labs, Activities and Answer Keys](https://classroomlabs.org/teachers/): How teachers use the free Classroom Labs in class: share a link in Google Classroom, Canvas or Schoology, print activities with answer keys, no logins.

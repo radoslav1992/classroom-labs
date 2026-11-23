@@ -1,5 +1,5 @@
 // The family of free learning sites, as listed on every lab (copied from earth-science-lab's src/lib/learning-apps.mjs).
-// Keep names, colors, marks and canonical URLs in sync with the labs. The hub shows eight of them (src/lib/labs.mjs).
+// Keep names, colors, marks and canonical URLs in sync with the labs. The hub shows nine of them (src/lib/labs.mjs).
 export const currentApp = "hub";
 export const flagship = { name: "Interactive Periodic Table", url: "https://interactiveperiodictable.net" };
 export const learningApps = [

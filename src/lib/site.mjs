@@ -7,9 +7,9 @@ export const site = {
   name: 'Classroom Labs',
   url: 'https://classroomlabs.org',
   hostname: 'classroomlabs.org',
-  tagline: 'Free interactive labs for science, math, coding and reading.',
+  tagline: 'Free interactive labs for science, math, spreadsheets, coding and reading.',
   defaultTitle: 'Classroom Labs: Free Interactive Labs for Every Classroom',
-  defaultDescription: 'Free interactive labs for science, math, coding and reading. No sign-up, made for classrooms, and they work on Chromebooks and in Google Classroom.',
+  defaultDescription: 'Free interactive labs for science, math, spreadsheets, coding and reading. No sign-up, made for classrooms, ready for Chromebooks and Google Classroom.',
   /** Same-origin endpoint of the waitlist API (src/api). */
   waitlistEndpoint: '/api/waitlist',
 };

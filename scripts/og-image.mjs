@@ -24,18 +24,18 @@ const html = `<!doctype html><html><head><meta charset="utf-8">
   body{width:1200px;height:630px;background:#fbf7ef;font-family:'Atkinson Hyperlegible',system-ui,sans-serif;color:#1f2b26;display:grid;grid-template-columns:590px 1fr;overflow:hidden}
   .left{background:#22433a;color:#f7f2e6;padding:54px 52px;display:flex;flex-direction:column;justify-content:space-between;border-right:14px solid #f0b429}
   .brand{display:flex;align-items:center;gap:16px;font:700 34px 'Fraunces',Georgia,serif}
-  h1{font:700 54px/1.15 'Fraunces',Georgia,serif}
+  h1{font:700 50px/1.15 'Fraunces',Georgia,serif}
   h1 span{color:#ffd772}
   .sub{font-size:25px;color:#cfdcd5;margin-top:20px;line-height:1.4}
   .url{font-size:23px;color:#cfdcd5}
-  .right{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;padding:40px 40px;align-content:center}
-  .tile{background:var(--tint);color:var(--lab);border-radius:16px;padding:14px 18px;box-shadow:inset 0 -6px 0 var(--lab);display:flex;flex-direction:column;gap:4px;min-height:106px;justify-content:space-between}
-  .tile b{font:700 30px/1 'Fraunces',Georgia,serif}
-  .tile span{font-size:19px;font-weight:700;line-height:1.2}
+  .right{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:40px 32px;align-content:center}
+  .tile{background:var(--tint);color:var(--lab);border-radius:16px;padding:14px 14px;box-shadow:inset 0 -6px 0 var(--lab);display:flex;flex-direction:column;gap:4px;min-height:160px;justify-content:space-between}
+  .tile b{font:700 28px/1 'Fraunces',Georgia,serif}
+  .tile span{font-size:18px;font-weight:700;line-height:1.2}
 </style></head><body>
 <div class="left">
   <div class="brand"><img src="data:image/svg+xml;base64,${logo}" width="60" height="60">${escape(site.name)}</div>
-  <div><h1>Free interactive labs for <span>science, math, coding and reading</span></h1><p class="sub">No sign-up. Made for classrooms.</p></div>
+  <div><h1>Free interactive labs for <span>science, math, spreadsheets, coding and reading</span></h1><p class="sub">No sign-up. Made for classrooms.</p></div>
   <p class="url">${site.hostname}</p>
 </div>
 <div class="right">${tiles}</div>
