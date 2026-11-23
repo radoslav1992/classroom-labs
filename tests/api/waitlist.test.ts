@@ -214,6 +214,20 @@ describe('POST /api/waitlist with JSON', () => {
     expect((await call(json(valid, { origin: null, headers: { Referer: 'https://thephysicslab.org/teachers/' } }))).status).toBe(200);
   });
 
+  it('accepts Cell by Cell (cellbycell.app) as a site and an origin, with CORS for it', async () => {
+    const response = await call(json({ ...valid, site: 'cellbycell.app', subjects: 'Computer applications' }, { origin: 'https://cellbycell.app' }));
+    expect(response.status).toBe(200);
+    expect(await body(response)).toEqual({ ok: true });
+    expect(response.headers.get('Access-Control-Allow-Origin')).toBe('https://cellbycell.app');
+    expect(db.rows()).toHaveLength(1);
+    expect(db.rows()[0]).toMatchObject({ site: 'cellbycell.app' });
+    expect((await call(json({ ...valid, site: 'cellbycell.app', email: 'b@school.org' }, { origin: 'https://www.cellbycell.app' }))).status).toBe(200);
+    const preflight = await call(new Request(URL_, { method: 'OPTIONS', headers: { Origin: 'https://cellbycell.app', 'Access-Control-Request-Method': 'POST', 'Access-Control-Request-Headers': 'content-type' } }));
+    expect(preflight.headers.get('Access-Control-Allow-Origin')).toBe('https://cellbycell.app');
+    // A look-alike host is still refused.
+    expect(await body(await call(json({ ...valid, site: 'cellbycell.app' }, { origin: 'https://cellbycell.app.evil.example' })))).toEqual({ ok: false, error: 'bad_origin' });
+  });
+
   it('honors an ALLOWED_SITES override', async () => {
     env.ALLOWED_SITES = 'kidscode.dev, classroomlabs.org';
     expect((await call(json({ ...valid, site: 'kidscode.dev' }, { origin: 'https://kidscode.dev' }))).status).toBe(200);
@@ -291,6 +305,8 @@ describe('POST /api/waitlist as a form (no JavaScript)', () => {
       ['javascript:alert(1)', 'interactiveperiodictable.net', 'https://interactiveperiodictable.net/teachers?waitlist=ok'],
       ['', 'classroomlabs.org', 'https://classroomlabs.org/teachers/?waitlist=ok'],
       ['https://geometrylab.net/teachers/#teacher-plan', 'earthsciencelab.org', 'https://geometrylab.net/teachers/?waitlist=ok#teacher-plan'],
+      ['https://cellbycell.app/teachers#teacher-plan', 'cellbycell.app', 'https://cellbycell.app/teachers?waitlist=ok#teacher-plan'],
+      ['https://evil.example/', 'cellbycell.app', 'https://cellbycell.app/teachers?waitlist=ok'],
     ];
     let n = 0;
     for (const [target, site, expected] of cases) {

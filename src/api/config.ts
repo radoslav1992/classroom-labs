@@ -23,6 +23,7 @@ export const DEFAULT_SITES = [
   'thephysicslab.org',
   'theastronomylab.com',
   'geometrylab.net',
+  'cellbycell.app',
 ] as const;
 
 export const ROLES = ['teacher', 'school_leader', 'district', 'other'] as const;
@@ -51,8 +52,10 @@ export function allowedOrigins(env: Pick<Env, 'ALLOWED_SITES'>): Set<string> {
   return new Set(allowedSites(env).flatMap(site => [`https://${site}`, `https://www.${site}`]));
 }
 
+const NO_TRAILING_SLASH = new Set(['interactiveperiodictable.net', 'cellbycell.app']);
+
 /** Each site's teachers page, where a no-JavaScript post lands when `return` is missing or not allowed. */
 export function teachersPage(site: string): string {
-  // Interactive Periodic Table uses URLs without a trailing slash; the other sites use one.
-  return site === 'interactiveperiodictable.net' ? `https://${site}/teachers` : `https://${site}/teachers/`;
+  // Interactive Periodic Table and Cell by Cell use URLs without a trailing slash; the other sites use one.
+  return NO_TRAILING_SLASH.has(site) ? `https://${site}/teachers` : `https://${site}/teachers/`;
 }
