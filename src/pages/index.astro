@@ -10,7 +10,7 @@ const itemList = {
   '@context': 'https://schema.org',
   '@type': 'ItemList',
   name: 'Classroom Labs',
-  description: 'Free interactive learning sites for science, math, coding and reading.',
+  description: 'Free interactive learning sites for science, math, spreadsheets, coding and reading.',
   numberOfItems: labs.length,
   itemListElement: labs.map((lab, i) => ({
     '@type': 'ListItem',
@@ -25,8 +25,8 @@ const teacherLabs = labs.filter(lab => lab.teachersUrl);
     <div class="wrap hero-grid">
       <div>
         <span class="eyebrow">Free for every classroom</span>
-        <h1>Free interactive labs for <span class="hl">science, math, coding and reading</span></h1>
-        <p class="lede">Eight free sites where students run experiments, solve problems and practice skills right in the browser. There is nothing to sign up for and nothing to install.</p>
+        <h1>Free interactive labs for <span class="hl">science, math, spreadsheets, coding and reading</span></h1>
+        <p class="lede">Nine free sites where students run experiments, solve problems and practice skills right in the browser. There is nothing to sign up for and nothing to install.</p>
         <ul class="promise">
           <li><strong>Made for classrooms.</strong> Built for teachers first, and for the students and parents they share them with.</li>
           <li><strong>Works where you teach.</strong> On Chromebooks, and in Google Classroom, Canvas or Schoology as a link.</li>
@@ -75,7 +75,7 @@ const teacherLabs = labs.filter(lab => lab.teachersUrl);
         </div>
         <div class="point">
           <h3>Print an activity</h3>
-          <p>The science, math and reading labs have printable classroom activities and answer keys for teachers, collected on each lab’s teachers page.</p>
+          <p>The science, math and reading labs have printable classroom activities and answer keys for teachers, collected on each lab’s teachers page. Cell by Cell has an answer key for every track of its Excel lessons.</p>
         </div>
         <div class="point">
           <h3>Use any device</h3>
@@ -108,8 +108,9 @@ const teacherLabs = labs.filter(lab => lab.teachersUrl);
   .hero h1 { margin-bottom: .45em; }
   .promise { list-style: none; padding: 0; margin: 18px 0 0; display: grid; gap: 8px; max-width: 44rem; }
   .promise li { margin: 0; padding-left: 18px; border-left: 4px solid var(--marigold); }
-  .tiles { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
-  @media (max-width: 520px) { .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  /* Nine labs: three rows of three. */
+  .tiles { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+  @media (max-width: 520px) { .tiles { gap: 8px; } .tiles a { padding: 10px; } }
   .tiles li { margin: 0; }
   .tiles a { display: flex; flex-direction: column; justify-content: space-between; gap: 6px; min-height: 104px; padding: 12px; border-radius: 12px; background: var(--lab-tint); color: var(--lab); text-decoration: none; border: 2px solid transparent; box-shadow: inset 0 -4px 0 var(--lab); }
   .tiles a:hover { border-color: var(--lab); }

@@ -1,8 +1,8 @@
 # Classroom Labs
 
 The home of the Classroom Labs series at **https://classroomlabs.org**: a small static site that introduces the
-eight free labs (Interactive Periodic Table, Physics Lab, Biology Lab, Earth Science Lab, Astronomy Lab, Geometry
-Lab, KidsCode and Fiction & Fact Library) and the coming teacher plan, plus the **teacher-plan waitlist API** that
+nine free labs (Interactive Periodic Table, Physics Lab, Biology Lab, Earth Science Lab, Astronomy Lab, Geometry
+Lab, Cell by Cell, KidsCode and Fiction & Fact Library) and the coming teacher plan, plus the **teacher-plan waitlist API** that
 every lab's form posts to.
 
 One Cloudflare Worker (`classroom-labs`) serves both:
@@ -27,7 +27,8 @@ One Cloudflare Worker (`classroom-labs`) serves both:
 The lab cards come from `src/lib/labs.mjs`. Names, colors, marks and home URLs come from `src/lib/learning-apps.mjs`
 (a copy of the list every lab carries; keep it in sync). What each card says (what students do, grade band, main
 tools, teachers page) was checked against each lab's own pages; check the lab again before changing it. Every lab
-link must be the lab's canonical URL: Interactive Periodic Table has no trailing slash, the other labs do.
+link must be the lab's canonical URL: Interactive Periodic Table and Cell by Cell have no trailing slash, the other
+labs do.
 `npm run check` fails on any other link to a lab. KidsCode's pages could not be checked when the hub was built, so
 its card uses only its home page and the description from `learning-apps.mjs`, with no grade band or tools.
 
@@ -79,7 +80,7 @@ GA4, only when `PUBLIC_GA_ID` is set, behind the same Consent Mode defaults and 
 | Event | Parameters | When |
 | --- | --- | --- |
 | `waitlist_signup` | `site`, `role`, `source` | the waitlist form was accepted (JavaScript path) |
-| `lab_click` | `lab` (`chemistry`, `physics`, `biology`, `earth`, `astronomy`, `geometry`, `kids`, `reading`) | any link to a lab |
+| `lab_click` | `lab` (`chemistry`, `physics`, `biology`, `earth`, `astronomy`, `geometry`, `spreadsheets`, `kids`, `reading`) | any link to a lab |
 
 ## The waitlist API
 
@@ -87,7 +88,7 @@ The contract shared with the labs is [`docs/waitlist-contract.md`](docs/waitlist
 one side only.
 
 - `POST /api/waitlist`: JSON (fetch) or a form post (`application/x-www-form-urlencoded`, also multipart).
-  Order of checks: origin (CORS allowlist: `https://<site>` and `https://www.<site>` for the seven sites, plus the
+  Order of checks: origin (CORS allowlist: `https://<site>` and `https://www.<site>` for the eight sites, plus the
   Worker's own origin) → body → honeypot (`website` filled: answer ok, store nothing) → validation → rate limit →
   Turnstile (`siteverify` with `TURNSTILE_SECRET` and the client IP) → upsert on `(email, site)`. JSON gets
   `200 {"ok":true}` or `4xx {"ok":false,"error":…}`; a form post gets a `303` to `return` (only an https URL on an
@@ -119,7 +120,7 @@ Site tests (`tests/site/`) check the lab data and render the form with the Astro
    `npm run db:migrate:remote` only applies later migrations).
 3. **Turnstile**: Dashboard → Turnstile → Add widget. Hostnames: `classroomlabs.org`, `earthsciencelab.org`,
    `interactiveperiodictable.net`, `thebiologylab.org`, `thephysicslab.org`, `theastronomylab.com`,
-   `geometrylab.net`. Mode: Managed. The **site key** goes into `PUBLIC_TURNSTILE_SITE_KEY` here and in each lab's
+   `geometrylab.net`, `cellbycell.app`. Mode: Managed. The **site key** goes into `PUBLIC_TURNSTILE_SITE_KEY` here and in each lab's
    build settings; the **secret key** goes into step 4.
 4. **Secrets** (never in the repo or in chat), from this folder:
    `npx wrangler secret put TURNSTILE_SECRET` (the Turnstile secret key) and
@@ -139,7 +140,8 @@ Site tests (`tests/site/`) check the lab data and render the form with the Astro
    copy the measurement ID (`G-…`) into `PUBLIC_GA_ID`, redeploy. In GA, register `lab` and `role`, `site`,
    `source` as event-scoped custom dimensions to see them in reports.
 9. Turn on the labs' forms: set `PUBLIC_WAITLIST_ENDPOINT=https://classroomlabs.org/api/waitlist` and
-   `PUBLIC_TURNSTILE_SITE_KEY` in each lab's build settings.
+   `PUBLIC_TURNSTILE_SITE_KEY` in each lab's build settings. Cell by Cell (a Vite app) names them
+   `VITE_WAITLIST_ENDPOINT` and `VITE_TURNSTILE_SITE_KEY`.
 10. Submit `https://classroomlabs.org/sitemap-index.xml` in Google Search Console and Bing Webmaster Tools.
 
 ## Privacy

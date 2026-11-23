@@ -1,8 +1,8 @@
-// The eight labs on the hub, in the order they appear, grouped by subject.
+// The nine labs on the hub, in the order they appear, grouped by subject.
 // Names, colors, marks and home URLs come from learning-apps.mjs. Everything else here was checked against
 // each lab's own pages (teachers page, activities, llms.txt) in November 2026: change it only after checking
-// the lab again. Every URL is the lab's canonical form: Interactive Periodic Table uses no trailing slash,
-// the other labs end every path in a slash.
+// the lab again. Every URL is the lab's canonical form: Interactive Periodic Table and Cell by Cell use no
+// trailing slash, the other labs end every path in a slash.
 import { learningApps } from './learning-apps.mjs';
 
 const app = id => {
@@ -113,6 +113,20 @@ const details = [
     teachers: 'Printable student activities with answer keys and Common Core connections.',
   },
   {
+    id: 'spreadsheets',
+    group: 'Computer skills',
+    does: 'Learn Excel in a live spreadsheet that runs in the browser: type real formulas, with every step checked as you work, from a first SUM to lookups, PivotTables, charts and dynamic arrays.',
+    grades: 'Ages 13 to adult',
+    tools: [
+      ['Interactive Excel lessons', '/learn'],
+      ['Excel skills test', '/test'],
+      ['Excel function guides', '/functions'],
+      ['Daily Excel puzzle', '/daily'],
+    ],
+    teachersPath: '/teachers',
+    teachers: 'How to assign a lesson or a whole track, what needs an account, the skills test as an assessment, and an answer key for every track.',
+  },
+  {
     id: 'kids',
     group: 'Coding',
     does: 'Guide a robot, snap code blocks together and write first real Python programs.',
@@ -146,8 +160,9 @@ export const labs = details.map(({ id, tools, teachersPath, ...rest }) => {
     id, name, subject, url: `${url}/`, color, tint, mark, path, ...rest,
     tools: tools.map(([label, p]) => ({ name: label, url: href(p) })),
     teachersUrl: teachersPath ? href(teachersPath) : null,
-    // Every lab with a teachers page has printable activities with answer keys and a Share to Google Classroom button.
-    printables: Boolean(teachersPath),
+    // Every lab with a teachers page has printable answer keys and a Share to Google Classroom button. Cell by Cell's
+    // students work in the lesson itself, so it has answer keys but no printable student activities.
+    printables: Boolean(teachersPath) && id !== 'spreadsheets',
     classroomShare: Boolean(teachersPath),
   };
 });
@@ -155,6 +170,7 @@ export const labs = details.map(({ id, tools, teachersPath, ...rest }) => {
 export const groups = [
   { id: 'science', name: 'Science', blurb: 'Chemistry, physics, biology, earth science and astronomy.' },
   { id: 'math', name: 'Math', blurb: 'Geometry and trigonometry.' },
+  { id: 'computer-skills', name: 'Computer skills', blurb: 'Spreadsheets and Excel.' },
   { id: 'coding', name: 'Coding', blurb: 'First steps in programming for children.' },
   { id: 'reading', name: 'Reading', blurb: 'Reading and English skills.' },
 ].map(group => ({ ...group, labs: labs.filter(lab => lab.group === group.name) }));
